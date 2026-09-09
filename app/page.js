@@ -70,11 +70,27 @@ function Petals() {
       document.querySelectorAll(".petal").forEach((petal) => petal.remove());
     };
   }, []);
-
   return null;
 }
 
+function OpeningPage({ onOpen }) {
+  return (
+    <section className="opening-page" aria-label="Wedding invitation cover">
+      <div className="opening-pattern" aria-hidden="true" />
+      <div className="opening-content">
+        <div className="opening-kicker">The wedding celebration</div>
+        <div className="opening-emblem" aria-hidden="true"><span>✦</span><b>❧</b><span>✦</span></div>
+        <h1 className="opening-names">Dilip <span>&amp;</span><br />Gayatri</h1>
+        <div className="opening-divider"><span>❦</span></div>
+        <button className="open-button" type="button" onClick={onOpen}>Open invitation</button>
+      </div>
+    </section>
+  );
+}
+
 export default function Home() {
+  const [isOpen, setIsOpen] = useState(false);
+
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -84,7 +100,9 @@ export default function Home() {
 
     document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
     return () => observer.disconnect();
-  }, []);
+  }, [isOpen]);
+
+  if (!isOpen) return <OpeningPage onOpen={() => setIsOpen(true)} />;
 
   return (
     <>
